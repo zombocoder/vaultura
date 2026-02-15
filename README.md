@@ -28,7 +28,8 @@ Vaultura keeps all your credentials encrypted on disk using modern cryptography 
 ### Homebrew (macOS / Linux)
 
 ```sh
-brew install zombocoder/vaultura/vaultura
+brew tap zombocoder/vaultura https://github.com/zombocoder/vaultura.git
+brew install vaultura
 ```
 
 ### Pre-built binaries
