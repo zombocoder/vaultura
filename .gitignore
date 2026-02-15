@@ -26,7 +26,6 @@ Thumbs.db
 
 # Debug
 *.pdb
-core
 
 # Config generated during dev
 vaultura.toml
