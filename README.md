@@ -113,9 +113,17 @@ On first launch, you'll be prompted to create a master password. This creates an
 | `Ctrl+S` | Use password |
 | `Esc` | Cancel |
 
-## Configuration
+## File Locations
 
-Vaultura stores its config as TOML at the platform config directory (`~/.config/vaultura/config.toml` on Linux/macOS).
+| Platform | Config | Vault |
+|----------|--------|-------|
+| macOS | `~/Library/Application Support/vaultura/config.toml` | `~/Library/Application Support/vaultura/vault.vltr` |
+| Linux | `~/.config/vaultura/config.toml` | `~/.local/share/vaultura/vault.vltr` |
+| Windows | `C:\Users\<user>\AppData\Roaming\vaultura\config.toml` | `C:\Users\<user>\AppData\Roaming\vaultura\vault.vltr` |
+
+Both can be overridden with CLI flags: `--config <path>` and `--vault <path>`.
+
+## Configuration
 
 ```toml
 vault_path = "/home/user/.local/share/vaultura/vault.vltr"
