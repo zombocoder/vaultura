@@ -1,5 +1,11 @@
 # Vaultura
 
+[![CI](https://github.com/zombocoder/vaultura/actions/workflows/ci.yml/badge.svg)](https://github.com/zombocoder/vaultura/actions/workflows/ci.yml)
+[![Release](https://github.com/zombocoder/vaultura/actions/workflows/release.yml/badge.svg)](https://github.com/zombocoder/vaultura/actions/workflows/release.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Rust](https://img.shields.io/badge/Rust-stable-orange.svg)](https://www.rust-lang.org/)
+[![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)](https://github.com/rust-secure-code/safety-dance/)
+
 A secure, fully local, terminal-based (TUI) password manager built in Rust.
 
 Vaultura keeps all your credentials encrypted on disk using modern cryptography and provides a fast, keyboard-driven 3-pane interface inspired by 1Password.
