@@ -1,16 +1,15 @@
 name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Release version (e.g. v0.1.0)"
-        required: true
-        type: string
+  push:
+    tags:
+      - "v*"
+  release:
+    types: [created]
 
 env:
   CARGO_TERM_COLOR: always
-  VERSION: ${{ github.event.inputs.version }}
+  VERSION: ${{ github.ref_name }}
 
 jobs:
   build:
@@ -80,3 +79,8 @@ jobs:
           name: vaultura-${{ matrix.target }}
           path: vaultura-${{ env.VERSION }}-${{ matrix.target }}.*
 
+      - name: Upload to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: vaultura-${{ env.VERSION }}-${{ matrix.target }}.*
