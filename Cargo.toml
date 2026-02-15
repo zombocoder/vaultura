@@ -1,0 +1,27 @@
+[package]
+name = "vaultura"
+version = "0.1.0"
+edition = "2021"
+description = "A secure, terminal-based password manager"
+
+[dependencies]
+ratatui = "0.29"
+crossterm = "0.28"
+argon2 = "0.5"
+chacha20poly1305 = "0.10"
+secrecy = { version = "0.10", features = ["serde"] }
+zeroize = { version = "1", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+bincode = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+arboard = "3"
+clap = { version = "4", features = ["derive"] }
+rand = "0.8"
+thiserror = "2"
+directories = "5"
+toml = "0.8"
+unicode-width = "0.2"
+
+[dev-dependencies]
+tempfile = "3"

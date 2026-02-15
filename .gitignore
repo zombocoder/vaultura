@@ -1,0 +1,32 @@
+# Build
+/target
+
+# Vault files
+*.vault
+*.vltr
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+
+# Cargo lock is committed for binaries, but ignore if treating as library
+# Cargo.lock
+
+# Debug
+*.pdb
+core
+
+# Config generated during dev
+vaultura.toml
