@@ -102,7 +102,7 @@ impl Component for LockScreen {
             Constraint::Length(1), // Label
             Constraint::Length(3), // Password input
             Constraint::Length(1), // Error message
-            Constraint::Min(0),   // Hint
+            Constraint::Min(0),    // Hint
         ])
         .split(inner);
 

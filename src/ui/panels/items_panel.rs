@@ -156,7 +156,7 @@ impl Component for ItemsPanel {
     fn render(&self, frame: &mut Frame, area: Rect) {
         let chunks = Layout::vertical([
             Constraint::Length(3), // Search bar
-            Constraint::Min(1),   // Item list
+            Constraint::Min(1),    // Item list
         ])
         .split(area);
 
@@ -173,10 +173,7 @@ impl Component for ItemsPanel {
                 Span::styled("█", theme::style_accent()),
             ])
         } else if self.search_query.is_empty() {
-            Line::from(Span::styled(
-                "Press / to search...",
-                theme::style_muted(),
-            ))
+            Line::from(Span::styled("Press / to search...", theme::style_muted()))
         } else {
             Line::from(vec![
                 Span::styled("/", theme::style_accent()),
@@ -196,10 +193,7 @@ impl Component for ItemsPanel {
                 } else {
                     Line::from(vec![
                         Span::raw(title.as_str()),
-                        Span::styled(
-                            format!("  {username}"),
-                            theme::style_muted(),
-                        ),
+                        Span::styled(format!("  {username}"), theme::style_muted()),
                     ])
                 };
                 ListItem::new(line)

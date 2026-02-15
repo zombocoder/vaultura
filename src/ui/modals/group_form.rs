@@ -36,8 +36,9 @@ impl GroupForm {
             .filter(|g| g.id != group.id)
             .map(|g| (g.id, g.name.clone()))
             .collect();
-        let selected_parent_index =
-            group.parent_id.and_then(|pid| parent_groups.iter().position(|g| g.0 == pid));
+        let selected_parent_index = group
+            .parent_id
+            .and_then(|pid| parent_groups.iter().position(|g| g.0 == pid));
 
         Self {
             editing_id: Some(group.id),
@@ -61,7 +62,8 @@ impl Component for GroupForm {
                 self.current_field = if self.current_field == 0 { 1 } else { 0 };
                 Action::None
             }
-            (KeyCode::Enter, KeyModifiers::CONTROL) | (KeyCode::Char('s'), KeyModifiers::CONTROL) => {
+            (KeyCode::Enter, KeyModifiers::CONTROL)
+            | (KeyCode::Char('s'), KeyModifiers::CONTROL) => {
                 if self.name.is_empty() {
                     Action::SetStatus("Group name is required".to_string())
                 } else {

@@ -9,7 +9,11 @@ use vaultura::config::AppConfig;
 use vaultura::ui::app::App;
 
 #[derive(Parser)]
-#[command(name = "vaultura", version, about = "A secure terminal-based password manager")]
+#[command(
+    name = "vaultura",
+    version,
+    about = "A secure terminal-based password manager"
+)]
 struct Cli {
     /// Path to the vault file
     #[arg(short, long)]

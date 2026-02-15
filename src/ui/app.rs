@@ -150,12 +150,10 @@ impl App {
                 self.stashed_item_form = None;
                 self.main_screen = MainScreen::new();
             }
-            Action::Save => {
-                match self.vault_service.save() {
-                    Ok(()) => self.main_screen.set_status("Saved".to_string()),
-                    Err(e) => self.main_screen.set_status(format!("Save failed: {e}")),
-                }
-            }
+            Action::Save => match self.vault_service.save() {
+                Ok(()) => self.main_screen.set_status("Saved".to_string()),
+                Err(e) => self.main_screen.set_status(format!("Save failed: {e}")),
+            },
             Action::CreateVault(password) => {
                 // Ensure parent directory exists
                 if let Some(parent) = self.vault_service.vault_path().parent() {
@@ -169,55 +167,47 @@ impl App {
                     Err(e) => self.lock_screen.set_error(format!("{e}")),
                 }
             }
-            Action::UnlockVault(password) => {
-                match self.vault_service.unlock(&password) {
-                    Ok(()) => {
-                        self.current_screen = Screen::Main;
-                        self.refresh_ui();
-                    }
-                    Err(e) => self.lock_screen.set_error(format!("{e}")),
+            Action::UnlockVault(password) => match self.vault_service.unlock(&password) {
+                Ok(()) => {
+                    self.current_screen = Screen::Main;
+                    self.refresh_ui();
                 }
-            }
+                Err(e) => self.lock_screen.set_error(format!("{e}")),
+            },
             Action::SelectGroup(group_id) => {
                 self.refresh_items(group_id);
             }
             Action::SelectItem(item_id) => {
                 self.refresh_details(item_id);
             }
-            Action::CreateItem(draft) => {
-                match self.vault_service.create_item(draft) {
-                    Ok(_id) => {
-                        self.modal = Modal::None;
-                        self.auto_save();
-                        self.refresh_ui();
-                        self.main_screen.set_status("Item created".to_string());
-                    }
-                    Err(e) => self.main_screen.set_status(format!("Error: {e}")),
+            Action::CreateItem(draft) => match self.vault_service.create_item(draft) {
+                Ok(_id) => {
+                    self.modal = Modal::None;
+                    self.auto_save();
+                    self.refresh_ui();
+                    self.main_screen.set_status("Item created".to_string());
                 }
-            }
-            Action::UpdateItem(id, draft) => {
-                match self.vault_service.update_item(id, draft) {
-                    Ok(()) => {
-                        self.modal = Modal::None;
-                        self.auto_save();
-                        self.refresh_ui();
-                        self.main_screen.set_status("Item updated".to_string());
-                    }
-                    Err(e) => self.main_screen.set_status(format!("Error: {e}")),
+                Err(e) => self.main_screen.set_status(format!("Error: {e}")),
+            },
+            Action::UpdateItem(id, draft) => match self.vault_service.update_item(id, draft) {
+                Ok(()) => {
+                    self.modal = Modal::None;
+                    self.auto_save();
+                    self.refresh_ui();
+                    self.main_screen.set_status("Item updated".to_string());
                 }
-            }
-            Action::DeleteItem(id) => {
-                match self.vault_service.delete_item(id) {
-                    Ok(()) => {
-                        self.modal = Modal::None;
-                        self.auto_save();
-                        self.main_screen.details_panel.clear();
-                        self.refresh_ui();
-                        self.main_screen.set_status("Item deleted".to_string());
-                    }
-                    Err(e) => self.main_screen.set_status(format!("Error: {e}")),
+                Err(e) => self.main_screen.set_status(format!("Error: {e}")),
+            },
+            Action::DeleteItem(id) => match self.vault_service.delete_item(id) {
+                Ok(()) => {
+                    self.modal = Modal::None;
+                    self.auto_save();
+                    self.main_screen.details_panel.clear();
+                    self.refresh_ui();
+                    self.main_screen.set_status("Item deleted".to_string());
                 }
-            }
+                Err(e) => self.main_screen.set_status(format!("Error: {e}")),
+            },
             Action::CreateGroup(name, parent_id) => {
                 match self.vault_service.create_group(name, parent_id) {
                     Ok(_id) => {
@@ -240,17 +230,15 @@ impl App {
                     Err(e) => self.main_screen.set_status(format!("Error: {e}")),
                 }
             }
-            Action::DeleteGroup(id) => {
-                match self.vault_service.delete_group(id) {
-                    Ok(()) => {
-                        self.modal = Modal::None;
-                        self.auto_save();
-                        self.refresh_ui();
-                        self.main_screen.set_status("Group deleted".to_string());
-                    }
-                    Err(e) => self.main_screen.set_status(format!("Error: {e}")),
+            Action::DeleteGroup(id) => match self.vault_service.delete_group(id) {
+                Ok(()) => {
+                    self.modal = Modal::None;
+                    self.auto_save();
+                    self.refresh_ui();
+                    self.main_screen.set_status("Group deleted".to_string());
                 }
-            }
+                Err(e) => self.main_screen.set_status(format!("Error: {e}")),
+            },
             Action::CopyPassword(id) => {
                 if let Ok(item) = self.vault_service.get_item(id) {
                     let pw = item.password.clone();
@@ -308,10 +296,8 @@ impl App {
                     .get_item(id)
                     .map(|i| i.title.clone())
                     .unwrap_or_default();
-                let dialog = ConfirmDialog::new(
-                    format!("Delete item \"{name}\"?"),
-                    Action::DeleteItem(id),
-                );
+                let dialog =
+                    ConfirmDialog::new(format!("Delete item \"{name}\"?"), Action::DeleteItem(id));
                 self.modal = Modal::Confirm(dialog);
             }
             Action::OpenNewGroupForm => {
@@ -401,7 +387,9 @@ impl App {
     fn refresh_items(&mut self, group_id: Option<Uuid>) {
         let query = self.main_screen.items_panel.search_query().to_string();
         let items = if query.is_empty() {
-            self.vault_service.items_in_group(group_id).unwrap_or_default()
+            self.vault_service
+                .items_in_group(group_id)
+                .unwrap_or_default()
         } else {
             self.vault_service
                 .search_in_group(&query, group_id)
@@ -421,10 +409,9 @@ impl App {
                 let group_name = item
                     .group_id
                     .and_then(|gid| {
-                        self.vault_service
-                            .groups()
-                            .ok()
-                            .and_then(|groups| groups.iter().find(|g| g.id == gid).map(|g| g.name.clone()))
+                        self.vault_service.groups().ok().and_then(|groups| {
+                            groups.iter().find(|g| g.id == gid).map(|g| g.name.clone())
+                        })
                     })
                     .unwrap_or_else(|| "None".to_string());
                 self.main_screen.update_details(Some(&item), &group_name);
@@ -437,7 +424,8 @@ impl App {
     fn auto_save(&mut self) {
         if self.vault_service.is_dirty() {
             if let Err(e) = self.vault_service.save() {
-                self.main_screen.set_status(format!("Auto-save failed: {e}"));
+                self.main_screen
+                    .set_status(format!("Auto-save failed: {e}"));
             }
         }
     }

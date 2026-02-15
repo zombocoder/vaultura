@@ -43,8 +43,10 @@ pub struct ItemForm {
 
 impl ItemForm {
     pub fn new_create(groups: &[Group], default_group: Option<Uuid>) -> Self {
-        let group_list: Vec<(Uuid, String)> = groups.iter().map(|g| (g.id, g.name.clone())).collect();
-        let selected_group_index = default_group.and_then(|gid| group_list.iter().position(|g| g.0 == gid));
+        let group_list: Vec<(Uuid, String)> =
+            groups.iter().map(|g| (g.id, g.name.clone())).collect();
+        let selected_group_index =
+            default_group.and_then(|gid| group_list.iter().position(|g| g.0 == gid));
 
         Self {
             editing_id: None,
@@ -56,9 +58,11 @@ impl ItemForm {
     }
 
     pub fn new_edit(item: &Item, groups: &[Group]) -> Self {
-        let group_list: Vec<(Uuid, String)> = groups.iter().map(|g| (g.id, g.name.clone())).collect();
-        let selected_group_index =
-            item.group_id.and_then(|gid| group_list.iter().position(|g| g.0 == gid));
+        let group_list: Vec<(Uuid, String)> =
+            groups.iter().map(|g| (g.id, g.name.clone())).collect();
+        let selected_group_index = item
+            .group_id
+            .and_then(|gid| group_list.iter().position(|g| g.0 == gid));
 
         let field_values = [
             item.title.clone(),
@@ -138,7 +142,8 @@ impl Component for ItemForm {
                 };
                 Action::None
             }
-            (KeyCode::Enter, KeyModifiers::CONTROL) | (KeyCode::Char('s'), KeyModifiers::CONTROL) => {
+            (KeyCode::Enter, KeyModifiers::CONTROL)
+            | (KeyCode::Char('s'), KeyModifiers::CONTROL) => {
                 if self.field_values[0].is_empty() {
                     Action::SetStatus("Title is required".to_string())
                 } else {
@@ -227,7 +232,8 @@ impl Component for ItemForm {
         let inner = block.inner(center);
         frame.render_widget(block, center);
 
-        let mut constraints: Vec<Constraint> = FIELDS.iter().map(|_| Constraint::Length(3)).collect();
+        let mut constraints: Vec<Constraint> =
+            FIELDS.iter().map(|_| Constraint::Length(3)).collect();
         constraints.push(Constraint::Length(2)); // hints
         constraints.push(Constraint::Min(0));
 

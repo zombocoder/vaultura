@@ -51,7 +51,8 @@ impl GroupsPanel {
         // Clamp selection
         if let Some(sel) = self.list_state.selected() {
             if sel >= self.entries.len() {
-                self.list_state.select(Some(self.entries.len().saturating_sub(1)));
+                self.list_state
+                    .select(Some(self.entries.len().saturating_sub(1)));
             }
         }
     }

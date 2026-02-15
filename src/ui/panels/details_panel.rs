@@ -146,23 +146,24 @@ impl Component for DetailsPanel {
         frame.render_widget(block, area);
 
         let Some(ref item) = self.item else {
-            let empty = Paragraph::new("Select an item to view details")
-                .style(theme::style_muted());
+            let empty =
+                Paragraph::new("Select an item to view details").style(theme::style_muted());
             frame.render_widget(empty, inner);
             return;
         };
 
         let chunks = Layout::vertical([
             Constraint::Length(2), // Title
-            Constraint::Min(1),   // Fields
+            Constraint::Min(1),    // Fields
             Constraint::Length(2), // Hints
         ])
         .split(inner);
 
         // Title
-        let title = Paragraph::new(Line::from(vec![
-            Span::styled(&item.title, theme::style_accent()),
-        ]));
+        let title = Paragraph::new(Line::from(vec![Span::styled(
+            &item.title,
+            theme::style_accent(),
+        )]));
         frame.render_widget(title, chunks[0]);
 
         // Fields
@@ -181,19 +182,31 @@ impl Component for DetailsPanel {
         let mut lines = vec![
             Line::from(vec![
                 Span::styled("Username:  ", theme::style_muted()),
-                Span::raw(if item.username.is_empty() { "—" } else { &item.username }),
+                Span::raw(if item.username.is_empty() {
+                    "—"
+                } else {
+                    &item.username
+                }),
             ]),
             Line::from(vec![
                 Span::styled("Password:  ", theme::style_muted()),
                 Span::raw(password_display),
                 Span::styled(
-                    if self.show_password { "  [r] hide" } else { "  [r] reveal" },
+                    if self.show_password {
+                        "  [r] hide"
+                    } else {
+                        "  [r] reveal"
+                    },
                     theme::style_muted(),
                 ),
             ]),
             Line::from(vec![
                 Span::styled("URL:       ", theme::style_muted()),
-                Span::raw(if item.url.is_empty() { "—" } else { &item.url }),
+                Span::raw(if item.url.is_empty() {
+                    "—"
+                } else {
+                    &item.url
+                }),
             ]),
             Line::from(vec![
                 Span::styled("Group:     ", theme::style_muted()),
@@ -204,9 +217,7 @@ impl Component for DetailsPanel {
                 Span::raw(&tags_display),
             ]),
             Line::raw(""),
-            Line::from(vec![
-                Span::styled("Notes:", theme::style_muted()),
-            ]),
+            Line::from(vec![Span::styled("Notes:", theme::style_muted())]),
         ];
 
         if item.notes.is_empty() {
@@ -230,7 +241,10 @@ impl Component for DetailsPanel {
         if item.password_history_count > 0 {
             lines.push(Line::from(vec![
                 Span::styled("History:   ", theme::style_muted()),
-                Span::raw(format!("{} previous passwords", item.password_history_count)),
+                Span::raw(format!(
+                    "{} previous passwords",
+                    item.password_history_count
+                )),
             ]));
         }
 

@@ -40,7 +40,10 @@ pub fn style_warning() -> Style {
 }
 
 pub fn style_selected() -> Style {
-    Style::default().fg(FG).bg(HIGHLIGHT_BG).add_modifier(Modifier::BOLD)
+    Style::default()
+        .fg(FG)
+        .bg(HIGHLIGHT_BG)
+        .add_modifier(Modifier::BOLD)
 }
 
 pub fn style_border(focused: bool) -> Style {

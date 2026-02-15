@@ -50,7 +50,8 @@ impl Component for PasswordGeneratorModal {
                 self.regenerate();
                 Action::None
             }
-            (KeyCode::Enter, KeyModifiers::CONTROL) | (KeyCode::Char('s'), KeyModifiers::CONTROL) => {
+            (KeyCode::Enter, KeyModifiers::CONTROL)
+            | (KeyCode::Char('s'), KeyModifiers::CONTROL) => {
                 // "Use" the generated password
                 Action::UseGeneratedPassword
             }
@@ -125,7 +126,7 @@ impl Component for PasswordGeneratorModal {
         let chunks = Layout::vertical([
             Constraint::Length(3), // Generated password
             Constraint::Length(1), // Spacer
-            Constraint::Min(1),   // Options
+            Constraint::Min(1),    // Options
             Constraint::Length(2), // Hints
         ])
         .split(inner);
@@ -142,31 +143,11 @@ impl Component for PasswordGeneratorModal {
 
         // Options
         let options = [
-            (
-                format!("Length: {}", self.config.length),
-                true,
-                "← →",
-            ),
-            (
-                "Uppercase (A-Z)".to_string(),
-                self.config.uppercase,
-                "",
-            ),
-            (
-                "Lowercase (a-z)".to_string(),
-                self.config.lowercase,
-                "",
-            ),
-            (
-                "Digits (0-9)".to_string(),
-                self.config.digits,
-                "",
-            ),
-            (
-                "Symbols (!@#...)".to_string(),
-                self.config.symbols,
-                "",
-            ),
+            (format!("Length: {}", self.config.length), true, "← →"),
+            ("Uppercase (A-Z)".to_string(), self.config.uppercase, ""),
+            ("Lowercase (a-z)".to_string(), self.config.lowercase, ""),
+            ("Digits (0-9)".to_string(), self.config.digits, ""),
+            ("Symbols (!@#...)".to_string(), self.config.symbols, ""),
             (
                 "Exclude ambiguous (0OlI1)".to_string(),
                 self.config.exclude_ambiguous,

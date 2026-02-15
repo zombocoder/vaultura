@@ -26,7 +26,11 @@ impl ConfirmDialog {
 impl Component for ConfirmDialog {
     fn handle_key(&mut self, key: KeyEvent) -> Action {
         match key.code {
-            KeyCode::Left | KeyCode::Right | KeyCode::Tab | KeyCode::Char('h') | KeyCode::Char('l') => {
+            KeyCode::Left
+            | KeyCode::Right
+            | KeyCode::Tab
+            | KeyCode::Char('h')
+            | KeyCode::Char('l') => {
                 self.selected = !self.selected;
                 Action::None
             }

@@ -111,9 +111,12 @@ impl MainScreen {
     }
 
     fn update_focus(&mut self) {
-        self.groups_panel.set_focused(self.active_pane == Pane::Groups);
-        self.items_panel.set_focused(self.active_pane == Pane::Items);
-        self.details_panel.set_focused(self.active_pane == Pane::Details);
+        self.groups_panel
+            .set_focused(self.active_pane == Pane::Groups);
+        self.items_panel
+            .set_focused(self.active_pane == Pane::Items);
+        self.details_panel
+            .set_focused(self.active_pane == Pane::Details);
     }
 }
 
@@ -158,7 +161,7 @@ impl Component for MainScreen {
 
     fn render(&self, frame: &mut Frame, area: Rect) {
         let chunks = Layout::vertical([
-            Constraint::Min(1),   // Main area
+            Constraint::Min(1),    // Main area
             Constraint::Length(1), // Status bar
         ])
         .split(area);

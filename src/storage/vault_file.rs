@@ -5,7 +5,9 @@ use std::path::Path;
 use crate::core::models::{KdfParams, VaultPayload};
 use crate::crypto::{aead, kdf};
 use crate::error::{Result, VaulturaError};
-use crate::storage::format::{KDF_PARAMS_LENGTH, MAGIC, MIN_FILE_SIZE, NONCE_LENGTH, SALT_LENGTH, VERSION};
+use crate::storage::format::{
+    KDF_PARAMS_LENGTH, MAGIC, MIN_FILE_SIZE, NONCE_LENGTH, SALT_LENGTH, VERSION,
+};
 
 /// Create a new vault file at `path` with the given master password.
 pub fn create_vault(path: &Path, password: &str, kdf_params: &KdfParams) -> Result<()> {
@@ -133,10 +135,7 @@ fn read_kdf_params(data: &[u8]) -> KdfParams {
 
 fn atomic_write(path: &Path, data: &[u8]) -> Result<()> {
     let parent = path.parent().unwrap_or(Path::new("."));
-    let temp_path = parent.join(format!(
-        ".vaultura_tmp_{}",
-        std::process::id()
-    ));
+    let temp_path = parent.join(format!(".vaultura_tmp_{}", std::process::id()));
 
     let mut file = fs::File::create(&temp_path)?;
     file.write_all(data)?;
@@ -262,7 +261,9 @@ mod tests {
         let params = test_params();
 
         let mut payload = VaultPayload::default();
-        payload.groups.push(crate::core::models::Group::new("G".to_string(), None));
+        payload
+            .groups
+            .push(crate::core::models::Group::new("G".to_string(), None));
         write_vault(&original_path, "pass1", &params, &payload).unwrap();
 
         let (read_payload, _) = read_vault(&original_path, "pass1").unwrap();
